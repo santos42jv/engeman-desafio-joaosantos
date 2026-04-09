@@ -1,0 +1,10 @@
+import { Box, styled } from "@mui/material";
+
+export const MainLayoutSection = styled(Box, {})({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    maxWidth: '100vw',
+    padding: '0 2rem',
+})
