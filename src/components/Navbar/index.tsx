@@ -1,4 +1,4 @@
-import { Avatar, Box, Tab, Tabs, Typography } from "@mui/material";
+import { Avatar, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
 import { NavbarSection } from "./style";
 
