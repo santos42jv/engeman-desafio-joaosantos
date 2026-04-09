@@ -4,18 +4,18 @@ import {
 } from "react-router";
 
 import Login from "../screens/Login";
-import Singup from "../screens/Singup";
+import Signup from "../screens/Signup";
 
 const Router = () => {
 
   const router = createBrowserRouter([
       {
-          path: "/",
+          path: "/login",
           element: <Login/>,
       },
       {
         path: "/cadastro",
-        element: <Singup/>
+        element: <Signup/>
       }
   ]);
 
