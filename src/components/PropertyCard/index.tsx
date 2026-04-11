@@ -49,10 +49,14 @@ export default function PropertyCard() {
             alignItems: "center",
             width: "100%",
             height: "100%",
+            paddingTop: 1,
+            paddingBottom: 2,
+            paddingLeft: 0,
+            paddingRight: 0,
           }}
         >
           <Box sx={{ paddingBottom: 1 }}>
-            <Typography variant="h6">Apartamento no Centro</Typography>
+            <Typography variant="h6" color="secondary" >Apartamento no Centro</Typography>
           </Box>
           <Box
             sx={{

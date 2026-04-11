@@ -1,0 +1,8 @@
+export default function Admin() {
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      <p>Bem-vindo ao painel de administração!</p>
+    </div>
+  );
+}
