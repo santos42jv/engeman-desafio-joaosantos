@@ -4,14 +4,17 @@ import type { PropertyData } from "../../interfaces/property-data";
 
 interface UsePropertyCardProps {
   property: PropertyData;
-  initialFavorited?: boolean;
+  favorited: boolean;
+  onFavorite?: (property: PropertyData) => void;
+  onUnfavorite?: (id: number) => void;
 }
 
 export const usePropertyCard = ({
   property,
-  initialFavorited = false,
+  favorited,
+  onFavorite,
+  onUnfavorite,
 }: UsePropertyCardProps) => {
-  const [favorited, setFavorited] = useState(initialFavorited);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
 
   const formattedValue = property.value.toLocaleString("pt-BR", {
@@ -37,11 +40,11 @@ export const usePropertyCard = ({
     try {
       if (favorited) {
         await api.delete(`/api/user/favorites/${property.id}`);
+        onUnfavorite?.(property.id);
       } else {
         await api.post(`/api/user/favorites/${property.id}`);
+        onFavorite?.(property);
       }
-
-      setFavorited((prev) => !prev);
     } catch (err) {
       console.error("Erro ao atualizar favorito:", err);
     } finally {
@@ -50,7 +53,6 @@ export const usePropertyCard = ({
   };
 
   return {
-    favorited,
     loadingFavorite,
     formattedValue,
     firstImageUrl,

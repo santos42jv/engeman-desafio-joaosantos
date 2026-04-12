@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useProperties } from "../../hooks/useProperties";
+import { useFavorites } from "../Favorites/useFavorites";
 
 const PAGE_SIZE = 12;
 
@@ -26,6 +27,7 @@ export const useHome = () => {
   };
 
   const { data, isLoading, isError } = useProperties(filters);
+  const { favoriteIds, handleFavorite, handleUnfavorite } = useFavorites();
 
   const handlePageChange = useCallback(
     (_: React.ChangeEvent<unknown>, value: number) => {
@@ -43,6 +45,9 @@ export const useHome = () => {
     properties: data?.content ?? [],
     totalPages: data?.totalPages ?? 1,
     totalElements: data?.totalElements ?? 0,
+    favoriteIds,
+    handleFavorite,
+    handleUnfavorite,
     page,
     isLoading,
     isError,

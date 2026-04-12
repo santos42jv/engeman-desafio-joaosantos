@@ -20,17 +20,20 @@ import {
 
 interface PropertyCardProps {
   property: PropertyData;
-  initialFavorited?: boolean;
+  favorited?: boolean;
+  onFavorite?: (property: PropertyData) => void;
+  onUnfavorite?: (id: number) => void;
   onClick?: () => void;
 }
 
 export default function PropertyCard({
   property,
-  initialFavorited = false,
+  favorited = false,
+  onFavorite,
+  onUnfavorite,
   onClick,
 }: PropertyCardProps) {
   const {
-    favorited,
     loadingFavorite,
     formattedValue,
     firstImageUrl,
@@ -38,7 +41,7 @@ export default function PropertyCard({
     typeLabel,
     statusLabel,
     handleToggleFavorite,
-  } = usePropertyCard({ property, initialFavorited });
+  } = usePropertyCard({ property, favorited, onFavorite, onUnfavorite });
 
   return (
     <StyledPropertyCard>
@@ -66,9 +69,9 @@ export default function PropertyCard({
         <StyledPropertyCardImage src={firstImageUrl} alt={property.name} />
 
         <StyledPropertyCardBody>
-            <Typography variant="h6" color="secondary" align="center">
-              {property.name}
-            </Typography>
+          <Typography variant="h6" color="secondary" align="center">
+            {property.name}
+          </Typography>
 
           <StyledPropertyCardInfoBox>
             <StyledPropertyCardRow>

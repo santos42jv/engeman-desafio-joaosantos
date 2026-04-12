@@ -19,6 +19,9 @@ export default function Home() {
     properties,
     totalPages,
     totalElements,
+    favoriteIds,
+    handleFavorite,
+    handleUnfavorite,
     page,
     isLoading,
     isError,
@@ -77,7 +80,13 @@ export default function Home() {
       ) : (
         <PropertyGrid>
           {properties.map((property: PropertyData) => (
-            <PropertyCard key={property.id} property={property} />
+            <PropertyCard
+              key={property.id}
+              property={property}
+              favorited={favoriteIds.has(property.id)}
+              onFavorite={handleFavorite}
+              onUnfavorite={handleUnfavorite}
+            />
           ))}
         </PropertyGrid>
       )}
