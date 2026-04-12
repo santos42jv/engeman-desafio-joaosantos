@@ -6,7 +6,6 @@ export const FavoritesSection = styled(Box)({
   alignItems: "center",
   width: "100%",
   minHeight: "calc(100vh - 64px)",
-  padding: "2rem 1.5rem",
   boxSizing: "border-box",
   backgroundColor: "#f5f7fb",
 });

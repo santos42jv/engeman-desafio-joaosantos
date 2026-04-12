@@ -10,6 +10,7 @@ import { ProtectedRoute } from "../context/ProtectedRoute";
 import MyProperty from "../pages/MyProperty";
 import Favorites from "../pages/Favorites";
 import Profile from "../pages/Profile";
+import PropertyDetail from "../pages/PropertyDetail";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -42,13 +43,17 @@ const Router = () => {
               element: <Home />,
             },
             {
+              path: "/imoveis/:id",
+              element: <PropertyDetail />,
+            },
+            {
               path: "/favoritos",
               element: <Favorites />,
             },
             {
               path: "/perfil",
               element: <Profile />,
-            }
+            },
           ],
         },
         {

@@ -1,20 +1,24 @@
 import { CardActionArea, CircularProgress, Typography } from "@mui/material";
-import { usePropertyCard } from "./usePropertyCard";
-import type { PropertyData } from "../../interfaces/property-data";
-
 import SingleBedIcon from "@mui/icons-material/SingleBed";
 import SquareFootOutlinedIcon from "@mui/icons-material/SquareFootOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
+import { usePropertyCard } from "./usePropertyCard";
+import type { PropertyData } from "../../interfaces/property-data";
 import {
   StyledPropertyCard,
   StyledPropertyCardImage,
   StyledPropertyCardBody,
-  StyledPropertyCardInfoBox,
-  StyledPropertyCardRow,
-  CardIconsGroup,
-  StyledPropertyCardIconLabel,
+  PropertyCardTitle,
+  PropertyCardLocation,
+  PropertyCardPrice,
+  PropertyCardDivider,
+  PropertyCardMeta,
+  MetaItem,
+  PropertyTypeBadge,
+  StatusDot,
   FavoriteButton,
 } from "./style";
 
@@ -39,70 +43,67 @@ export default function PropertyCard({
     firstImageUrl,
     locationLabel,
     typeLabel,
-    statusLabel,
     handleToggleFavorite,
   } = usePropertyCard({ property, favorited, onFavorite, onUnfavorite });
 
   return (
     <StyledPropertyCard>
-      <FavoriteButton onClick={handleToggleFavorite}>
+      <FavoriteButton onClick={handleToggleFavorite} aria-label="Favoritar">
         {loadingFavorite ? (
-          <CircularProgress size={16} color="error" />
+          <CircularProgress size={15} sx={{ color: "#ee5f3d" }} />
         ) : favorited ? (
-          <FavoriteIcon color="primary" sx={{ fontSize: 18 }} />
+          <FavoriteIcon sx={{ fontSize: 17, color: "#ee5f3d" }} />
         ) : (
-          <FavoriteBorderIcon color="primary" sx={{ fontSize: 18 }} />
+          <FavoriteBorderIcon sx={{ fontSize: 17, color: "#aaa" }} />
         )}
       </FavoriteButton>
 
       <CardActionArea
         onClick={onClick}
         sx={{
-          width: "100%",
-          height: "100%",
-          flexDirection: "column",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
+          flexDirection: "column",
+          alignItems: "stretch",
+          height: "100%",
         }}
       >
         <StyledPropertyCardImage src={firstImageUrl} alt={property.name} />
 
         <StyledPropertyCardBody>
-          <Typography variant="h6" color="secondary" align="center">
-            {property.name}
-          </Typography>
+          <PropertyCardTitle>{property.name}</PropertyCardTitle>
 
-          <StyledPropertyCardInfoBox>
-            <StyledPropertyCardRow>
-              <Typography variant="body1">{typeLabel}</Typography>
-              <Typography variant="body1">{formattedValue}</Typography>
-            </StyledPropertyCardRow>
+          <PropertyCardLocation>
+            <LocationOnOutlinedIcon sx={{ fontSize: 13, color: "#bbb" }} />
+            {locationLabel}
+          </PropertyCardLocation>
 
-            <StyledPropertyCardRow>
-              <Typography variant="body2">{property.address}</Typography>
-              <Typography variant="body2">{locationLabel}</Typography>
-            </StyledPropertyCardRow>
+          <PropertyCardPrice>{formattedValue}</PropertyCardPrice>
 
-            <StyledPropertyCardRow sx={{ marginTop: 1 }}>
-              <CardIconsGroup>
-                <StyledPropertyCardIconLabel variant="body2">
-                  <SingleBedIcon color="primary" sx={{ fontSize: 18 }} />
-                  {property.bedrooms}
-                </StyledPropertyCardIconLabel>
-                <StyledPropertyCardIconLabel variant="body2">
-                  <SquareFootOutlinedIcon
-                    color="primary"
-                    sx={{ fontSize: 18 }}
-                  />
-                  {property.area} m²
-                </StyledPropertyCardIconLabel>
-              </CardIconsGroup>
-              <Typography variant="body2" sx={{ flex: 1, textAlign: "right" }}>
-                {statusLabel}
+          <PropertyCardDivider />
+
+          <PropertyCardMeta>
+            <MetaItem>
+              <SingleBedIcon sx={{ fontSize: 15, color: "#2e4490" }} />
+              <Typography variant="caption">{property.bedrooms} qts</Typography>
+            </MetaItem>
+
+            <MetaItem>
+              <SquareFootOutlinedIcon sx={{ fontSize: 15, color: "#2e4490" }} />
+              <Typography variant="caption">{property.area} m²</Typography>
+            </MetaItem>
+
+            <MetaItem>
+              <StatusDot active={property.active} />
+              <Typography
+                variant="caption"
+                sx={{ color: property.active ? "#4caf50" : "#bbb" }}
+              >
+                {property.active ? "Ativo" : "Inativo"}
               </Typography>
-            </StyledPropertyCardRow>
-          </StyledPropertyCardInfoBox>
+            </MetaItem>
+          </PropertyCardMeta>
+
+          <PropertyTypeBadge>{typeLabel}</PropertyTypeBadge>
         </StyledPropertyCardBody>
       </CardActionArea>
     </StyledPropertyCard>

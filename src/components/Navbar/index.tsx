@@ -1,41 +1,70 @@
-import { Tab, Tabs, Typography } from "@mui/material";
-import { NavbarSection } from "./style";
+import { Typography } from "@mui/material";
+
 import AvatarIcon from "../AvatarIcon";
 import { useNavbar } from "./useNavbar";
+import { NavbarSection, NavLogo, LogoDot, NavLinks, NavLink } from "./style";
 
 export default function Navbar() {
   const { tabValue, visible, canSeeProperties } = useNavbar();
 
-  return (
-    <NavbarSection
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 32,
-        right: 32,
-        zIndex: 1100,
-        transform: visible ? "translateY(0)" : "translateY(-100%)",
-        transition: "transform 0.3s ease",
-        width: "calc(100% - 64px)",
-      }}
-    >
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: "bold",
-          fontFamily: "Mont-Serrat",
-          color: "primary.main",
-        }}
-      >
-        KeySpace
-      </Typography>
+  const links = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    ...(canSeeProperties
+      ? [
+          {
+            label: "Imóveis",
+            href: "/meus-imoveis",
+          },
+        ]
+      : []),
+    {
+      label: "Favoritos",
+      href: "/favoritos",
+    },
+    {
+      label: "Perfil",
+      href: "/perfil",
+    },
+  ];
 
-      <Tabs value={tabValue} aria-label="nav tabs example" role="navigation">
-        <Tab label="Home" href="/" />
-        {canSeeProperties && <Tab label="Imóveis" href="/meus-imoveis" />}
-        <Tab label="Favoritos" href="/favoritos" />
-        <Tab label="Perfil" href="/perfil" />
-      </Tabs>
+  return (
+    <NavbarSection visible={visible}>
+      <NavLogo href="/">
+        <Typography
+          sx={{
+            fontWeight: 800,
+            fontSize: "1.2rem",
+            color: "#2e4490",
+            letterSpacing: "-0.5px",
+            lineHeight: 1,
+          }}
+        >
+          Key
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: 800,
+            fontSize: "1.2rem",
+            color: "#ee5f3d",
+            letterSpacing: "-0.5px",
+            lineHeight: 1,
+          }}
+        >
+          Space
+        </Typography>
+        <LogoDot />
+      </NavLogo>
+
+      <NavLinks>
+        {links.map((link, i) => (
+          <NavLink key={link.href} href={link.href} active={tabValue === i}>
+            {link.label}
+          </NavLink>
+        ))}
+      </NavLinks>
 
       <AvatarIcon />
     </NavbarSection>

@@ -1,6 +1,6 @@
 import { Pagination, Skeleton, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
-
 import PropertyCard from "../../components/PropertyCard";
 import PropertyFilter from "../../components/PropertyFilter";
 import type { PropertyData } from "../../interfaces/property-data";
@@ -27,6 +27,8 @@ export default function Home() {
     isError,
     handlePageChange,
   } = useHome();
+
+  const navigate = useNavigate();
 
   return (
     <HomeSection>
@@ -86,6 +88,7 @@ export default function Home() {
               favorited={favoriteIds.has(property.id)}
               onFavorite={handleFavorite}
               onUnfavorite={handleUnfavorite}
+              onClick={() => navigate(`/imoveis/${property.id}`)}
             />
           ))}
         </PropertyGrid>

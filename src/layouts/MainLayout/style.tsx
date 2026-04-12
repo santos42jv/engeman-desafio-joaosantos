@@ -9,6 +9,6 @@ export const MainLayoutSection = styled(
   alignItems: "center",
   justifyContent: "center",
   maxWidth: "100vw",
-  padding: "5rem 2rem 0 2rem",
+  padding: "5rem 2rem 2rem 2rem",
   backgroundColor: "#f5f7fb",
 });

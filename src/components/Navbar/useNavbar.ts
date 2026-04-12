@@ -11,6 +11,10 @@ const BROKER_ROUTES = [
   "/contato",
 ];
 
+const NESTED_ROUTE_MAP: Record<string, string> = {
+  "/imoveis": "/",
+};
+
 export const useNavbar = () => {
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -20,7 +24,12 @@ export const useNavbar = () => {
   const canSeeProperties = user?.role === "ADMIN" || user?.role === "CORRETOR";
   const routes = canSeeProperties ? BROKER_ROUTES : PUBLIC_ROUTES;
 
-  const tabIndex = routes.indexOf(pathname);
+  const resolvedPath =
+    Object.entries(NESTED_ROUTE_MAP).find(([prefix]) =>
+      pathname.startsWith(prefix),
+    )?.[1] ?? pathname;
+
+  const tabIndex = routes.indexOf(resolvedPath);
   const tabValue = tabIndex === -1 ? false : tabIndex;
 
   useEffect(() => {
