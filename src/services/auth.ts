@@ -1,9 +1,7 @@
-import axios from "axios";
-
-const API_URL = "https://d-engeman-1.onrender.com";
+import { api } from "./api";
 
 export const loginRequest = async (email: string, password: string) => {
-  const response = await axios.post(`${API_URL}/api/auth/login`, {
+  const response = await api.post(`/api/auth/login`, {
     email,
     password,
   });
@@ -14,7 +12,7 @@ export const loginRequest = async (email: string, password: string) => {
 export const getMe = async () => {
   const token = localStorage.getItem("token");
 
-  const response = await axios.get(`${API_URL}/api/user`, {
+  const response = await api.get(`/api/user`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

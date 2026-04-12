@@ -8,7 +8,7 @@ import {
   LoginSectionLeft,
   LoginSectionRight,
 } from "./style";
-import LoginForm from "../../components/LoginForm.tsx/index.tsx";
+import LoginForm from "../../components/LoginForm/index.tsx";
 import build from "../../assets/login-page-image.jpg";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";

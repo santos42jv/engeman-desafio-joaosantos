@@ -1,6 +1,7 @@
-import { Avatar, Tab, Tabs, Typography } from "@mui/material";
+import { Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
 import { NavbarSection } from "./style";
+import AvatarIcon from "../AvatarIcon";
 
 export default function Navbar() {
   const [value, setValue] = React.useState(0);
@@ -26,7 +27,7 @@ export default function Navbar() {
         <Tab label="Duvidas" href="/spam" />
         <Tab label="Contato" href="/spam" />
       </Tabs>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <AvatarIcon />
     </NavbarSection>
   );
 }
