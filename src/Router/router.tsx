@@ -7,6 +7,9 @@ import MainLayout from "../layouts/MainLayout";
 import Unauthorized from "../pages/Unauthorized";
 import Admin from "../pages/Admin";
 import { ProtectedRoute } from "../context/ProtectedRoute";
+import MyProperty from "../pages/MyProperty";
+import Favorites from "../pages/Favorites";
+import Profile from "../pages/Profile";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -23,12 +26,29 @@ const Router = () => {
           ],
         },
         {
+          element: <ProtectedRoute roles={["ADMIN", "CORRETOR"]} />,
+          children: [
+            {
+              path: "/meus-imoveis",
+              element: <MyProperty />,
+            },
+          ],
+        },
+        {
           element: <ProtectedRoute roles={["ADMIN", "CLIENTE", "CORRETOR"]} />,
           children: [
             {
               path: "/",
               element: <Home />,
             },
+            {
+              path: "/favoritos",
+              element: <Favorites />,
+            },
+            {
+              path: "/perfil",
+              element: <Profile />,
+            }
           ],
         },
         {

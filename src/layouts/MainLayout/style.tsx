@@ -6,5 +6,5 @@ export const MainLayoutSection = styled(Box, {})({
     alignItems: 'center',
     justifyContent: 'center',
     maxWidth: '100vw',
-    padding: '0 2rem',
+    padding: '5rem 2rem 0 2rem',
 })
