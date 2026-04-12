@@ -14,3 +14,22 @@ export interface PropertyData {
   brokerName: string;
   imageUrls: string;
 }
+
+export interface PropertyFilters {
+  name?: string;
+  type?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minBedrooms?: number;
+  page?: number;
+  size?: number;
+  sort?: string;
+}
+
+export interface PropertyPage {
+  content: PropertyData[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+}

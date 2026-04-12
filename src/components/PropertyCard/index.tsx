@@ -66,7 +66,7 @@ export default function PropertyCard({
         <StyledPropertyCardImage src={firstImageUrl} alt={property.name} />
 
         <StyledPropertyCardBody>
-            <Typography variant="h6" color="secondary" noWrap>
+            <Typography variant="h6" color="secondary" align="center">
               {property.name}
             </Typography>
 
