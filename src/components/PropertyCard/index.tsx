@@ -1,26 +1,59 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Box,
-  Typography,
-} from "@mui/material";
+import { CardActionArea, CircularProgress, Typography } from "@mui/material";
+import { usePropertyCard } from "./usePropertyCard";
+import type { PropertyData } from "../../interfaces/property-data";
+
 import SingleBedIcon from "@mui/icons-material/SingleBed";
 import SquareFootOutlinedIcon from "@mui/icons-material/SquareFootOutlined";
-import Build from "../../assets/login-page-image.jpg";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-export default function PropertyCard() {
+import {
+  StyledPropertyCard,
+  StyledPropertyCardImage,
+  StyledPropertyCardBody,
+  StyledPropertyCardInfoBox,
+  StyledPropertyCardRow,
+  CardIconsGroup,
+  StyledPropertyCardIconLabel,
+  FavoriteButton,
+} from "./style";
+
+interface PropertyCardProps {
+  property: PropertyData;
+  initialFavorited?: boolean;
+  onClick?: () => void;
+}
+
+export default function PropertyCard({
+  property,
+  initialFavorited = false,
+  onClick,
+}: PropertyCardProps) {
+  const {
+    favorited,
+    loadingFavorite,
+    formattedValue,
+    firstImageUrl,
+    locationLabel,
+    typeLabel,
+    statusLabel,
+    handleToggleFavorite,
+  } = usePropertyCard({ property, initialFavorited });
+
   return (
-    <Card
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: 320,
-        width: 240,
-      }}
-    >
+    <StyledPropertyCard>
+      <FavoriteButton onClick={handleToggleFavorite}>
+        {loadingFavorite ? (
+          <CircularProgress size={16} color="error" />
+        ) : favorited ? (
+          <FavoriteIcon color="primary" sx={{ fontSize: 18 }} />
+        ) : (
+          <FavoriteBorderIcon color="primary" sx={{ fontSize: 18 }} />
+        )}
+      </FavoriteButton>
+
       <CardActionArea
+        onClick={onClick}
         sx={{
           width: "100%",
           height: "100%",
@@ -30,83 +63,45 @@ export default function PropertyCard() {
           justifyContent: "start",
         }}
       >
-        <CardMedia
-          component="img"
-          height="150"
-          image={Build}
-          alt="green iguana"
-          sx={{
-            flex: 2,
-          }}
-        />
+        <StyledPropertyCardImage src={firstImageUrl} alt={property.name} />
 
-        <CardContent
-          sx={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            height: "100%",
-            paddingTop: 1,
-            paddingBottom: 2,
-            paddingLeft: 0,
-            paddingRight: 0,
-          }}
-        >
-          <Box sx={{ paddingBottom: 1 }}>
-            <Typography variant="h6" color="secondary" >Apartamento no Centro</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "0 1rem",
-            }}
-          >
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography variant="body1">tipo</Typography>
-              <Typography variant="body1">valor</Typography>
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography variant="body2">Rua das Flores, 123</Typography>
-              <Typography variant="body2">São Paulo</Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: 1,
-              }}
-            >
-              <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: 1}}>
-                <Typography
-                  variant="body2"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <SingleBedIcon color="primary"/> 3
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <SquareFootOutlinedIcon color="primary"/> 85 m²
-                </Typography>
-              </Box>
-              <Typography
-                variant="body2"
-                sx={{ display: "flex", alignItems: "center", flex: 1, justifyContent: 'flex-end'}}
-              >
-                Ativo
+        <StyledPropertyCardBody>
+            <Typography variant="h6" color="secondary" noWrap>
+              {property.name}
+            </Typography>
+
+          <StyledPropertyCardInfoBox>
+            <StyledPropertyCardRow>
+              <Typography variant="body1">{typeLabel}</Typography>
+              <Typography variant="body1">{formattedValue}</Typography>
+            </StyledPropertyCardRow>
+
+            <StyledPropertyCardRow>
+              <Typography variant="body2">{property.address}</Typography>
+              <Typography variant="body2">{locationLabel}</Typography>
+            </StyledPropertyCardRow>
+
+            <StyledPropertyCardRow sx={{ marginTop: 1 }}>
+              <CardIconsGroup>
+                <StyledPropertyCardIconLabel variant="body2">
+                  <SingleBedIcon color="primary" sx={{ fontSize: 18 }} />
+                  {property.bedrooms}
+                </StyledPropertyCardIconLabel>
+                <StyledPropertyCardIconLabel variant="body2">
+                  <SquareFootOutlinedIcon
+                    color="primary"
+                    sx={{ fontSize: 18 }}
+                  />
+                  {property.area} m²
+                </StyledPropertyCardIconLabel>
+              </CardIconsGroup>
+              <Typography variant="body2" sx={{ flex: 1, textAlign: "right" }}>
+                {statusLabel}
               </Typography>
-            </Box>
-          </Box>
-        </CardContent>
+            </StyledPropertyCardRow>
+          </StyledPropertyCardInfoBox>
+        </StyledPropertyCardBody>
       </CardActionArea>
-    </Card>
+    </StyledPropertyCard>
   );
 }

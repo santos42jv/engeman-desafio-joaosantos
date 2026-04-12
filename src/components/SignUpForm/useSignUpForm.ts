@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
-import type { SignUpData } from "../../Interfaces/signup-data";
+import type { SignUpData } from "../../interfaces/signup-data";
 
 const registerRequest = async (data: SignUpData) => {
   const response = await api.post(`/api/auth/register`, data);

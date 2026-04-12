@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loginRequest, getMe } from "../services/auth";
-import type { LoginData } from "../Interfaces/auth-data";
+import type { LoginData } from "../interfaces/auth-data";
 
 const USER_STORAGE_KEY = "user";
 
