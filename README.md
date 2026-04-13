@@ -120,10 +120,7 @@ O projeto foi estruturado seguindo boas práticas de organização e separação
 
 ```bash
 # Clonar repositório
-git clone https://github.com/seu-usuario/seu-repo.git
-
-# Entrar na pasta
-cd seu-repo
+git clone https://github.com/santos42jv/engeman-desafio-joaosantos.git
 
 # Instalar dependências
 npm install
