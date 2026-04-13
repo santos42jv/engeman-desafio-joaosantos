@@ -2,6 +2,7 @@ import {
   Skeleton,
   Typography,
   Chip,
+  CircularProgress,
   IconButton,
   Tooltip,
   Box,
@@ -52,6 +53,7 @@ export default function PropertyDetail() {
     images,
     activeIndex,
     isFavorited,
+    loadingFavorite,
     formattedValue,
     typeLabel,
     handlePrev,
@@ -83,14 +85,11 @@ export default function PropertyDetail() {
           <Box
             sx={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
           >
-            <Box sx={{ display: "flex", gap: "0.5rem" }}>
-              <Skeleton
-                variant="rectangular"
-                width="100%"
-                height="100%"
-                sx={{ aspectRatio: "4 / 3", borderRadius: 3, display: "block" }}
-              />
-            </Box>
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              sx={{ aspectRatio: "4 / 3", borderRadius: 3 }}
+            />
           </Box>
 
           <Box
@@ -106,19 +105,14 @@ export default function PropertyDetail() {
               <Skeleton variant="text" width="65%" height={40} />
               <Skeleton variant="circular" width={36} height={36} />
             </Box>
-
             <Skeleton variant="text" width="40%" height={48} />
-
             <Box sx={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton key={i} variant="rounded" width={90} height={32} />
               ))}
             </Box>
-
             <Skeleton variant="text" width="55%" height={24} />
-
             <Skeleton variant="rectangular" width="100%" height={1} />
-
             <Box
               sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
             >
@@ -127,9 +121,7 @@ export default function PropertyDetail() {
               <Skeleton variant="text" width="90%" height={20} />
               <Skeleton variant="text" width="80%" height={20} />
             </Box>
-
             <Skeleton variant="rectangular" width="100%" height={1} />
-
             <Skeleton
               variant="rectangular"
               width="100%"
@@ -213,8 +205,11 @@ export default function PropertyDetail() {
                 <FavoriteBtn
                   onClick={handleToggleFavorite}
                   aria-label="Favoritar"
+                  disabled={loadingFavorite}
                 >
-                  {isFavorited ? (
+                  {loadingFavorite ? (
+                    <CircularProgress size={18} sx={{ color: "#ee5f3d" }} />
+                  ) : isFavorited ? (
                     <FavoriteIcon color="primary" />
                   ) : (
                     <FavoriteBorderIcon color="primary" />

@@ -1,5 +1,6 @@
 import { Skeleton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import PropertyCard from "../../components/PropertyCard";
 import PropertyFilter from "../../components/PropertyFilter";
@@ -12,7 +13,6 @@ import {
   SkeletonGrid,
   EmptyState,
 } from "./style";
-import { useSearchParams } from "react-router-dom";
 
 export default function Favorites() {
   const {
@@ -24,6 +24,7 @@ export default function Favorites() {
     handleUnfavorite,
   } = useFavorites();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const filtered = favorites.filter((p) => {
     const name = searchParams.get("name")?.toLowerCase() ?? "";
@@ -109,6 +110,7 @@ export default function Favorites() {
               favorited={favoriteIds.has(property.id)}
               onFavorite={handleFavorite}
               onUnfavorite={handleUnfavorite}
+              onClick={() => navigate(`/imoveis/${property.id}`)}
             />
           ))}
         </FavoritesGrid>

@@ -15,6 +15,7 @@ export const usePropertyDetail = () => {
   const navigate = useNavigate();
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
 
   const {
     data: property,
@@ -59,12 +60,23 @@ export const usePropertyDetail = () => {
 
   const handleBack = () => navigate(-1);
 
+  // Mesma lógica do usePropertyCard: faz a chamada HTTP + atualiza estado local
   const handleToggleFavorite = async () => {
-    if (!property) return;
-    if (isFavorited) {
-      await handleUnfavorite(property.id);
-    } else {
-      await handleFavorite(property);
+    if (!property || !localStorage.getItem("token")) return;
+
+    setLoadingFavorite(true);
+    try {
+      if (isFavorited) {
+        await api.delete(`/api/user/favorites/${property.id}`);
+        handleUnfavorite(property.id);
+      } else {
+        await api.post(`/api/user/favorites/${property.id}`);
+        handleFavorite(property);
+      }
+    } catch (err) {
+      console.error("Erro ao atualizar favorito:", err);
+    } finally {
+      setLoadingFavorite(false);
     }
   };
 
@@ -75,6 +87,7 @@ export const usePropertyDetail = () => {
     images,
     activeIndex,
     isFavorited,
+    loadingFavorite,
     formattedValue,
     typeLabel,
     handlePrev,
