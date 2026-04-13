@@ -36,15 +36,16 @@ export default function PropertyFormModal({
   initialData,
 }: PropertyFormModalProps) {
   const {
-    form,
+    register,
+    errors,
+    handleSubmit,
     imageUrls,
     isUploading,
     isSaving,
-    errors,
-    handleChange,
+    imageError,
+    submitError,
     handleImageUpload,
     handleRemoveImage,
-    handleSubmit,
   } = usePropertyForm({ initialData, onSave });
 
   const isEditing = !!initialData;
@@ -60,29 +61,27 @@ export default function PropertyFormModal({
           <Grid size={12}>
             <TextField
               label="Nome do imóvel"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.name}
-              helperText={errors.name ?? "Mínimo 10, máximo 100 caracteres"}
+              helperText={
+                errors.name?.message ?? "Mínimo 10, máximo 100 caracteres"
+              }
               slotProps={{ htmlInput: { minLength: 10, maxLength: 100 } }}
+              {...register("name")}
             />
           </Grid>
 
           <Grid size={12}>
             <TextField
               label="Descrição"
-              name="description"
-              value={form.description}
-              onChange={handleChange}
               fullWidth
               required
               multiline
               rows={3}
               error={!!errors.description}
-              helperText={errors.description}
+              helperText={errors.description?.message}
+              {...register("description")}
             />
           </Grid>
 
@@ -90,13 +89,12 @@ export default function PropertyFormModal({
             <TextField
               select
               label="Tipo"
-              name="type"
-              value={form.type}
-              onChange={handleChange}
               fullWidth
               required
+              defaultValue="CASA"
               error={!!errors.type}
-              helperText={errors.type}
+              helperText={errors.type?.message}
+              {...register("type")}
             >
               {PROPERTY_TYPES.map((t) => (
                 <MenuItem key={t.value} value={t.value}>
@@ -109,85 +107,73 @@ export default function PropertyFormModal({
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               label="Valor (R$)"
-              name="value"
               type="number"
-              value={form.value}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.value}
-              helperText={errors.value}
+              helperText={errors.value?.message}
               slotProps={{ htmlInput: { min: 0, step: "1000" } }}
+              {...register("value")}
             />
           </Grid>
 
           <Grid size={{ xs: 6, sm: 3 }}>
             <TextField
               label="Quartos"
-              name="bedrooms"
               type="number"
-              value={form.bedrooms}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.bedrooms}
-              helperText={errors.bedrooms}
+              helperText={errors.bedrooms?.message}
               slotProps={{ htmlInput: { min: 0 } }}
+              {...register("bedrooms")}
             />
           </Grid>
 
           <Grid size={{ xs: 6, sm: 3 }}>
             <TextField
               label="Área (m²)"
-              name="area"
               type="number"
-              value={form.area}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.area}
-              helperText={errors.area}
+              helperText={errors.area?.message}
               slotProps={{ htmlInput: { min: 0 } }}
+              {...register("area")}
             />
           </Grid>
 
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               label="Endereço"
-              name="address"
-              value={form.address}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.address}
-              helperText={errors.address}
+              helperText={errors.address?.message}
+              {...register("address")}
             />
           </Grid>
 
           <Grid size={{ xs: 12, sm: 5 }}>
             <TextField
               label="Cidade"
-              name="city"
-              value={form.city}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.city}
-              helperText={errors.city}
+              helperText={errors.city?.message}
+              {...register("city")}
             />
           </Grid>
 
           <Grid size={{ xs: 12, sm: 1 }}>
             <TextField
               label="UF"
-              name="state"
-              value={form.state}
-              onChange={handleChange}
               fullWidth
               required
               error={!!errors.state}
-              helperText={errors.state}
+              helperText={errors.state?.message}
               slotProps={{ htmlInput: { maxLength: 2 } }}
+              {...register("state")}
             />
           </Grid>
 
@@ -212,13 +198,13 @@ export default function PropertyFormModal({
               />
             </UploadButton>
 
-            {errors.imageUrls && (
+            {imageError && (
               <Typography
                 variant="caption"
                 color="error"
                 sx={{ mt: 0.5, display: "block" }}
               >
-                {errors.imageUrls}
+                {imageError}
               </Typography>
             )}
 
@@ -242,9 +228,9 @@ export default function PropertyFormModal({
         </Grid>
       </DialogContent>
 
-      {errors.submit && (
+      {submitError && (
         <Alert severity="error" sx={{ mx: 3, mb: 1 }}>
-          {errors.submit}
+          {submitError}
         </Alert>
       )}
 

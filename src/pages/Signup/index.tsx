@@ -8,6 +8,7 @@ import {
   SignupSectionLeft,
   SignupSectionRight,
 } from "./style";
+
 import SignupForm from "../../components/SignUpForm";
 import build from "../../assets/login-page-image.jpg";
 import { Box, Typography } from "@mui/material";
@@ -19,48 +20,73 @@ export default function Signup() {
       <SignupSectionLeft>
         <SignupFormContainer>
           <Box
-            component="div"
-            sx={{ display: "flex", flexDirection: "column", marginBottom: 4 }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "stretch",
+              justifyContent: "center",
+              gap: 3,
+              maxWidth: 400,
+              margin: "0 auto",
+            }}
           >
-            <SignupFormTitle>Cadastre-se no</SignupFormTitle>
-
-            <SignupFormTitle>
-              Portal <SignupFormTitleStrong>KeySpace</SignupFormTitleStrong>
-            </SignupFormTitle>
-
-            <SignupFormSubtitle>preencha os dados abaixo</SignupFormSubtitle>
-          </Box>
-          <SignupForm />
-
-          <Box component="div" sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
-            <Typography
+            <Box
               sx={{
-                mt: 2,
-                color: "gray",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                width: "100%",
+              }}
+            >
+              <SignupFormTitle>Cadastre-se no</SignupFormTitle>
+
+              <SignupFormTitle>
+                Portal <SignupFormTitleStrong>KeySpace</SignupFormTitleStrong>
+              </SignupFormTitle>
+
+              <SignupFormSubtitle>preencha os dados abaixo</SignupFormSubtitle>
+            </Box>
+
+            <SignupForm />
+
+            <Box
+              sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                width: "100%",
               }}
             >
-              já tem uma conta?{" "}
               <Typography
-                component={Link}
-                to="/login"
-                color="secondary"
                 sx={{
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
+                  mt: 2,
+                  color: "gray",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                entrar
+                já tem uma conta?
+                <Typography
+                  component={Link}
+                  to="/login"
+                  color="secondary"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  entrar
+                </Typography>
               </Typography>
-            </Typography>
+            </Box>
           </Box>
         </SignupFormContainer>
       </SignupSectionLeft>
+
       <SignupSectionRight>
         <FullImage src={build} alt="signup-page-image" />
       </SignupSectionRight>

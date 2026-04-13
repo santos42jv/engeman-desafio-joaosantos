@@ -2,14 +2,7 @@ import { Box, TextField, Button } from "@mui/material";
 import { useLoginForm } from "./useLoginForm";
 
 export default function LoginForm() {
-  const {
-    email,
-    password,
-    setEmail,
-    setPassword,
-    handleSubmit,
-    isLoadingLogin,
-  } = useLoginForm();
+  const { register, errors, handleSubmit, isLoadingLogin } = useLoginForm();
 
   return (
     <Box
@@ -27,16 +20,18 @@ export default function LoginForm() {
         label="Email"
         type="email"
         fullWidth
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        error={!!errors.email}
+        helperText={errors.email?.message}
+        {...register("email")}
       />
 
       <TextField
         label="Senha"
         type="password"
         fullWidth
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        error={!!errors.password}
+        helperText={errors.password?.message}
+        {...register("password")}
       />
 
       <Button

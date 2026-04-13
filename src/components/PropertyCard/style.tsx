@@ -41,9 +41,12 @@ export const PropertyCardTitle = styled(Typography)({
   color: "#1a2a5e",
   lineHeight: 1.35,
   display: "-webkit-box",
-  WebkitLineClamp: 2,
+  WebkitLineClamp: 1,
   WebkitBoxOrient: "vertical",
   overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  maxWidth: "100%",
 });
 
 export const PropertyCardLocation = styled(Typography)({

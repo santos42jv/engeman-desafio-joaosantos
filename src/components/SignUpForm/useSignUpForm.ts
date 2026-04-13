@@ -1,78 +1,52 @@
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
 import { api } from "../../services/api";
-import type { SignUpData } from "../../interfaces/signup-data";
 
-const registerRequest = async (data: SignUpData) => {
-  const response = await api.post(`/api/auth/register`, data);
-  return response.data;
-};
+const signUpSchema = z
+  .object({
+    name: z.string().min(3, "Nome deve ter pelo menos 3 caracteres.").max(100),
+    email: z.string().email("Informe um e-mail válido."),
+    password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres."),
+    confirmPassword: z.string().min(1, "Confirme sua senha."),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não coincidem.",
+    path: ["confirmPassword"],
+  });
+
+type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export const useSignUpForm = () => {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-
-  const registerMutation = useMutation({
-    mutationFn: registerRequest,
-    onSuccess: () => {
-      navigate("/login");
-    },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
   });
 
-  const validate = () => {
-    const errors: Record<string, string> = {};
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (data: Omit<SignUpFormData, "confirmPassword">) =>
+      api.post("/api/auth/register", data),
+    onSuccess: () => navigate("/login"),
+  });
 
-    if (name.trim().length < 3) {
-      errors.name = "Nome deve ter pelo menos 3 caracteres.";
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = "Informe um e-mail válido.";
-    }
-
-    if (password.length < 6) {
-      errors.password = "Senha deve ter pelo menos 6 caracteres.";
-    }
-
-    if (password !== confirmPassword) {
-      errors.confirmPassword = "As senhas não coincidem.";
-    }
-
-    return errors;
-  };
-
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const errors = validate();
-    setFieldErrors(errors);
-
-    if (Object.keys(errors).length > 0) return;
-
-    registerMutation.mutate({ name, email, password });
+  const onSubmit = ({ confirmPassword: _, ...data }: SignUpFormData) => {
+    mutate(data);
   };
 
   return {
-    name,
-    email,
-    password,
-    confirmPassword,
-    setName,
-    setEmail,
-    setPassword,
-    setConfirmPassword,
-    handleSubmit,
-    isLoadingSignUp: registerMutation.isPending,
-    isSuccess: registerMutation.isSuccess,
-    error: registerMutation.isError
+    register,
+    errors,
+    handleSubmit: handleSubmit(onSubmit),
+    isLoadingSignUp: isPending,
+    error: isError
       ? "Erro ao criar conta. Verifique os dados e tente novamente."
       : null,
-    fieldErrors,
   };
 };

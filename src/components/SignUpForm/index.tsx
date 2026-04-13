@@ -2,20 +2,8 @@ import { Box, TextField, Button, Alert } from "@mui/material";
 import { useSignUpForm } from "./useSignUpForm";
 
 export default function SignUpForm() {
-  const {
-    name,
-    email,
-    password,
-    confirmPassword,
-    setName,
-    setEmail,
-    setPassword,
-    setConfirmPassword,
-    handleSubmit,
-    isLoadingSignUp,
-    error,
-    fieldErrors,
-  } = useSignUpForm();
+  const { register, errors, handleSubmit, isLoadingSignUp, error } =
+    useSignUpForm();
 
   return (
     <Box
@@ -34,45 +22,37 @@ export default function SignUpForm() {
       <TextField
         label="Nome Completo"
         type="text"
-        variant="outlined"
         fullWidth
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        error={!!fieldErrors.name}
-        helperText={fieldErrors.name}
+        error={!!errors.name}
+        helperText={errors.name?.message}
+        {...register("name")}
       />
 
       <TextField
         label="Email"
         type="email"
-        variant="outlined"
         fullWidth
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        error={!!fieldErrors.email}
-        helperText={fieldErrors.email}
+        error={!!errors.email}
+        helperText={errors.email?.message}
+        {...register("email")}
       />
 
       <TextField
         label="Senha"
         type="password"
-        variant="outlined"
         fullWidth
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        error={!!fieldErrors.password}
-        helperText={fieldErrors.password}
+        error={!!errors.password}
+        helperText={errors.password?.message}
+        {...register("password")}
       />
 
       <TextField
         label="Confirmar Senha"
         type="password"
-        variant="outlined"
         fullWidth
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        error={!!fieldErrors.confirmPassword}
-        helperText={fieldErrors.confirmPassword}
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword?.message}
+        {...register("confirmPassword")}
       />
 
       <Button

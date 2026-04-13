@@ -1,34 +1,41 @@
-import { useState } from "react";
-import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useUser } from "../../context/UserContext";
+
+const loginSchema = z.object({
+  email: z
+    .string()
+    .email("Informe um e-mail válido.")
+    .min(1, "E-mail é obrigatório."),
+  password: z.string().min(1, "Senha é obrigatória."),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export const useLoginForm = () => {
-  const { login, isLoadingLogin, isAuthenticated } = useUser();
+  const { login, isLoadingLogin } = useUser();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleSubmit = (e: React.SubmitEvent) => {
-    e.preventDefault();
-
-    login(
-      { email, password },
-      {
-        onSuccess: () => {
-          navigate("/");
-        },
-      },
-    );
+  const onSubmit = (data: LoginFormData) => {
+    login(data, {
+      onSuccess: () => navigate("/"),
+    });
   };
 
   return {
-    email,
-    password,
-    setEmail,
-    setPassword,
-    handleSubmit,
+    register,
+    errors,
+    handleSubmit: handleSubmit(onSubmit),
     isLoadingLogin,
-    isAuthenticated,
   };
 };

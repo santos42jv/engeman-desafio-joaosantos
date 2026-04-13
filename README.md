@@ -98,6 +98,12 @@ O projeto foi estruturado seguindo boas práticas de organização e separação
 - **Material UI (MUI)**
   Biblioteca de componentes para acelerar o desenvolvimento e garantir consistência visual.
 
+- **React Hook Form**
+  Gerenciamento eficiente de formulários com foco em performance, reduzindo re-renderizações e simplificando o controle de estado.
+
+- **ZOD**
+  Validação de dados baseada em schemas, garantindo consistência, integração com TypeScript e maior confiabilidade nas entradas do usuário.
+
 ---
 
 ## 🧠 Possíveis melhorias futuras
